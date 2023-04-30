@@ -7,6 +7,7 @@ package com.mycompany.sistemadegestion.forms;
 
 
 import com.mycompany.sistemadegestion.models.Cliente;
+import com.mysql.cj.util.StringUtils;
 import dao.ClienteDao;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,7 @@ import javax.swing.JOptionPane;
  * @author JOSEPH
  */
 public class FormularioCliente extends javax.swing.JFrame {
-
+   private List<Cliente> lista= new ArrayList<>() ;
 
         
     /** Creates new form FormularioCliente */
@@ -48,8 +49,17 @@ public class FormularioCliente extends javax.swing.JFrame {
         txtEmailC = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         txtTelefonoC = new javax.swing.JTextField();
+        btnEditar = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        lblId = new javax.swing.JLabel();
+        btnLimpiar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
 
         jLabel1.setText("Listado de clientes ");
 
@@ -102,6 +112,22 @@ public class FormularioCliente extends javax.swing.JFrame {
             }
         });
 
+        btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
+
+        jLabel6.setText("Id:");
+
+        btnLimpiar.setText("Limpiar");
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -111,31 +137,43 @@ public class FormularioCliente extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnEliminar))
+                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnLimpiar))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblId))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnGuardar)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(txtNombreCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel3)
-                                        .addComponent(txtApellidoC, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel4)
-                                        .addComponent(txtEmailC, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel5)
-                                    .addComponent(txtTelefonoC, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addContainerGap(28, Short.MAX_VALUE))
+                            .addComponent(jLabel2)
+                            .addComponent(txtNombreCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel3)
+                                .addComponent(txtApellidoC, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel4)
+                                .addComponent(txtEmailC, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addComponent(txtTelefonoC, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnGuardar, javax.swing.GroupLayout.Alignment.TRAILING)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(18, 18, 18)
-                .addComponent(jLabel1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel6)
+                    .addComponent(lblId))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
@@ -157,9 +195,12 @@ public class FormularioCliente extends javax.swing.JFrame {
                     .addComponent(jScrollPane1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnEliminar)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnEliminar)
+                        .addComponent(btnEditar)
+                        .addComponent(btnLimpiar))
                     .addComponent(btnGuardar))
-                .addContainerGap(83, Short.MAX_VALUE))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
 
         pack();
@@ -168,37 +209,45 @@ public class FormularioCliente extends javax.swing.JFrame {
     private void txtNombreClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreClienteActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNombreClienteActionPerformed
-    private List<Cliente> lista = new ArrayList<Cliente>();
+  //  private List<Cliente> lista = new ArrayList<Cliente>();
 
         
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        // TODO add your handling code here:
-        String nombre = this.txtNombreCliente.getText();
-        
+        // TODO add your handling code here:        
         Cliente c = new Cliente();
         c.setNombre(this.txtNombreCliente.getText());
         c.setApellido(this.txtApellidoC.getText());
         c.setEmail(this.txtEmailC.getText());
         c.setTelefono( this.txtTelefonoC.getText());
         
+      //  lista.add(c);
+      //  actualizarLista();
         
-         
-        lista.add(c);
+        /*
+            Instanciamos un objeto de la clase ClienteDao , 
+            llamada dao par apoder acceder a los metodos de la conexion a la base de datos 
+        */
+        ClienteDao dao = new ClienteDao(); 
+        
+        if(!StringUtils.isEmptyOrWhitespaceOnly(this.lblId.getText())){
+            c.setId(this.lblId.getText());
+            JOptionPane.showMessageDialog(rootPane,"Id : "+ this.lblId.getText() +" siendo Agregado" );
+        }
+        dao.guardar(c); // agregar cliente a la db 
         actualizarLista();
-        ClienteDao cliente_dao = new ClienteDao();
-        cliente_dao.agregar(c);
-        JOptionPane.showMessageDialog(rootPane,"Cliente : "+ nombre +" Agregado" );
         
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // TODO add your handling code here:
         int index= this.ListClientes.getSelectedIndex();
-        Cliente persona= lista.get(index);
-        lista.remove(index);
+        Cliente cliente = lista.get(index);
+        ClienteDao dao= new ClienteDao();
+        dao.eliminar(cliente.getId());
+       // Cliente persona= lista.get(index);
+       // lista.remove(index);
         actualizarLista();
-        
-        JOptionPane.showMessageDialog(rootPane, "persona a eliminar  :  "+persona.getNombre()  );
+       // JOptionPane.showMessageDialog(rootPane, "persona a eliminar  :  "+persona.getNombre()  );
         JOptionPane.showMessageDialog(rootPane, "index : "+index  );
 
     }//GEN-LAST:event_btnEliminarActionPerformed
@@ -214,17 +263,68 @@ public class FormularioCliente extends javax.swing.JFrame {
     private void txtTelefonoCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTelefonoCActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtTelefonoCActionPerformed
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        // TODO add your handling code here:
+        actualizarLista();
+    }//GEN-LAST:event_formComponentShown
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        int index = this.ListClientes.getSelectedIndex();
+        Cliente cliente = lista.get(index);
+        
+        this.txtNombreCliente
+                .setText(cliente.getNombre());
+        this.txtApellidoC
+                .setText(cliente.getApellido());
+        this.txtEmailC
+                .setText(cliente.getEmail());
+        this.txtTelefonoC
+                .setText(cliente.getTelefono());
+        this.lblId
+                .setText(cliente.getId());
+        /*
+        Cliente cliente = lista.get(index);
+        ClienteDao dao= new ClienteDao();
+        Cliente c = new Cliente();
+        c.setNombre(this.txtNombreCliente.getText());
+        c.setApellido(this.txtApellidoC.getText());
+        c.setEmail(this.txtEmailC.getText());
+        c.setTelefono( this.txtTelefonoC.getText());
+ 
+        dao.editar(c); // agregar cliente a la db 
+        actualizarLista();
+        JOptionPane.showMessageDialog(rootPane,"Cliente : "+ c.getNombre() +" Agregado" );
+        */
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        // TODO add your handling code here:
+        limpiarCampos();
+    }//GEN-LAST:event_btnLimpiarActionPerformed
     
     public void actualizarLista(){
         
-        DefaultListModel datos= new DefaultListModel();
+        ClienteDao dao = new ClienteDao();
+        lista = dao.listar();
         
+        DefaultListModel datos= new DefaultListModel();
         for (int i=0; i < lista.size(); i++){
             
             Cliente dato = lista.get(i);
             datos.addElement(dato.getNombreCompleto());
         }
         this.ListClientes.setModel(datos);
+        limpiarCampos();
+    }
+    public void limpiarCampos(){
+    
+    this.lblId.setText("");
+    this.txtNombreCliente.setText("");
+    this.txtApellidoC.setText("");
+    this.txtEmailC.setText("");
+    this.txtTelefonoC.setText("");
+    
     }
     
     
@@ -265,14 +365,18 @@ public class FormularioCliente extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList<String> ListClientes;
+    private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JToggleButton btnGuardar;
+    private javax.swing.JButton btnLimpiar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblId;
     private javax.swing.JTextField txtApellidoC;
     private javax.swing.JTextField txtEmailC;
     private javax.swing.JTextField txtNombreCliente;

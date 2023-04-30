@@ -1,4 +1,5 @@
 com\mycompany\sistemadegestion\forms\Formulario$3.class
+com\mycompany\sistemadegestion\forms\FormularioCliente$9.class
 com\mycompany\sistemadegestion\forms\Formulario$2.class
 com\mycompany\sistemadegestion\Main.class
 com\mycompany\sistemadegestion\models\Cliente.class
@@ -7,6 +8,7 @@ com\mycompany\sistemadegestion\forms\FormularioCliente$3.class
 com\mycompany\sistemadegestion\forms\FormularioCliente.class
 com\mycompany\sistemadegestion\forms\FormularioCliente$5.class
 com\mycompany\sistemadegestion\forms\Formulario.class
+com\mycompany\sistemadegestion\forms\FormularioCliente$8.class
 com\mycompany\sistemadegestion\forms\FormularioCliente$4.class
 dao\ClienteDao.class
 com\mycompany\sistemadegestion\forms\FormularioCliente$6.class
